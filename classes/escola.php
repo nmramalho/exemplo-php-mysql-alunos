@@ -156,6 +156,10 @@ class Escola {
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="T_pass" id="inputPassword" class="form-control" placeholder="Palavra-passe" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+        <div align="right" class="link-text">
+            Ainda não tem uma conta?&nbsp;
+            <a href="formregistar.php">Registar</a>
+        </div>
       </form>
     </div> <!-- /container -->
   
@@ -168,70 +172,87 @@ class Escola {
     */ 
    public function mostraFormRegistaAluno(){
      ?>
-        <form method="POST" action="registaalunobd.php">
-        <table border="0" align="center">
-            <tr>
-                <td >Email</td>
-                <td>
-                <input type="email" name="T_email" size="20" required></td>
-            </tr>
-            <tr>
-                <td >Nome</td>
-                <td>
-                <input type="text" name="T_nome" size="20" required></td>
-            </tr>     
-            <tr>
-                <td >Idade</td>
-                <td>
-                <input type="text" name="T_idade" size="2" required></td>
-            </tr>      
-            <tr>
-                <td >Turma</td>
-                <td>
-                <input type="text" name="T_turma" size="2" required></td>
-            </tr>                        
-            <tr>
-                <td >Ano</td>
-                <td>
-                <input type="text" name="T_ano" size="2" required></td>
-            </tr> 
-            <tr>
-                <td >Username</td>
-                <td>
-                <input type="text" name="T_username" size="20" required></td>
-            </tr> 
-            <tr>
-                <td >Password</td>
-                <td>
-                <input type="password" name="T_pass1" size="20" required></td>
-            </tr> 
-            <tr>
-                <td >Confirmar Password</td>
-                <td>
-                <input type="password" name="T_pass2" size="20" required></td>
-            </tr> 
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                <input type="submit" value="Submeter" name="B_Submeter" ></td>
-            </tr>
-            </table>
-    </form>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-offset-3" >
+            <form class="form-horizontal" role="form" method="POST" action="registaalunobd.php">
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-3">
+                        <input type="email" name="T_email" class="form-control" id="inputEmail" placeholder="Email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputNome" class="col-sm-2 control-label">Nome</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_nome" class="form-control" id="inputNome" placeholder="Nome completo" required>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <label for="inputIdade" class="col-sm-2 control-label">Idade</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_idade" class="form-control" id="inputIdade" placeholder="Idade (Exemplo:16)" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputTurma" class="col-sm-2 control-label">Turma</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_turma" class="form-control" id="inputTurma" placeholder="Turma (Exemplo: E)" required>
+                    </div>
+                </div>       
+
+                 <div class="form-group">
+                    <label for="inputAno" class="col-sm-2 control-label">Ano</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_ano" class="form-control" id="inputAno" placeholder="Ano (Exemplo: 12)" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_username" class="form-control" id="inputUsername" placeholder="Username (Exemplo: apires)" required>
+                    </div>
+                </div>       
+
+                <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-3">
+                        <input type="password" name="T_pass1" class="form-control" id="inputPassword" placeholder="Palavra-passe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputConfPassword" class="col-sm-2 control-label">Confirmar password</label>
+                    <div class="col-sm-3">
+                        <input type="password" name="T_pass2" class="form-control" id="inputConfPassword" placeholder="Confirmar palavra-passe" required>
+                    </div>
+                </div>  
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-3">
+                        <button type="submit" class="btn btn-group-justified">Criar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>    
+    
 <?php
  
    }
      
    /**
-    * Função para mostrar o formulário de registo de um novo aluno
+    * Função para mostrar o formulário de criação de um aluno
     * 
     */ 
-   
-     
-   public function mostraFormNovoAluno(){
+     public function mostraFormNovoAluno(){
      ?>
-    
-    
-    
+     
     <div class="container">
     <div class="row">
         <div class="col-md-12 col-sm-offset-3" >
@@ -300,10 +321,7 @@ class Escola {
             </form>
         </div>
     </div>
-</div>
-    
-    
-    
+</div>    
  
 <?php
    }
@@ -314,60 +332,80 @@ class Escola {
     * @param Aluno $aluno
    */
    public function mostraFormEditaAluno(Aluno $aluno){
-     ?>
-        <form method="POST" action="editaalunobd.php">
-        <table border="0" align="center">
-            <tr>
-                <td >Email</td>
-                <td>
-                <input type="email" name="T_email" size="20" value="<?=$aluno->getEmail()?>" required></td>
-            </tr>
-            <tr>
-                <td >Nome</td>
-                <td>
-                    <input type="text" name="T_nome" size="20" value="<?=$aluno->getNome()?>" required></td>
-            </tr>     
-            <tr>
-                <td >Idade</td>
-                <td>
-                    <input type="text" name="T_idade" size="2" value="<?=$aluno->getIdade()?>" required></td>
-            </tr>      
-            <tr>
-                <td >Turma</td>
-                <td>
-                    <input type="text" name="T_turma" size="2" value="<?=$aluno->getTurma()?>"required></td>
-            </tr>                        
-            <tr>
-                <td >Ano</td>
-                <td>
-                    <input type="text" name="T_ano" size="2" value="<?=$aluno->getAno()?> "required></td>
-            </tr> 
-            <tr>
-                <td >Username</td>
-                <td>
-                    <input type="text" name="T_username" size="20" value="<?=$aluno->getUsername()?>" required></td>
-            </tr> 
-            <tr>
-                <td >Password</td>
-                <td>
-                    <input type="password" name="T_pass1" size="20" value="<?=$aluno->getPass()?>" required></td>
-            </tr> 
-            <tr>
-                <td >Confirmar Password</td>
-                <td>
-                <input type="password" name="T_pass2" size="20" required></td>
-            </tr> 
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                <input type="submit" value="Submeter" name="B_Submeter" ></td>
-            </tr>
-            </table>
-            
-            <!-- Email original do aluno para a procura do registo na bd -->
-            <input name="H_email" type="hidden" value="<?=$aluno->getEmail()?>">
-            
-    </form>
+     ?> 
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-offset-3" >
+            <form class="form-horizontal" role="form" method="POST" action="editaalunobd.php">
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-3">
+                        <input type="email" name="T_email" class="form-control" id="inputEmail" value="<?=$aluno->getEmail()?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputNome" class="col-sm-2 control-label">Nome</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_nome" class="form-control" id="inputNome" value="<?=$aluno->getNome()?>" required>
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    <label for="inputIdade" class="col-sm-2 control-label">Idade</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_idade" class="form-control" id="inputIdade" value="<?=$aluno->getIdade()?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputTurma" class="col-sm-2 control-label">Turma</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_turma" class="form-control" id="inputTurma" value="<?=$aluno->getTurma()?>" required>
+                    </div>
+                </div>       
+
+                 <div class="form-group">
+                    <label for="inputAno" class="col-sm-2 control-label">Ano</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_ano" class="form-control" id="inputAno" value="<?=$aluno->getAno()?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="T_username" class="form-control" id="inputUsername" value="<?=$aluno->getUsername()?>" required>
+                    </div>
+                </div>       
+
+                <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-3">
+                        <input type="password" name="T_pass1" class="form-control" id="inputPassword" value="<?=$aluno->getPass()?>" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputConfPassword" class="col-sm-2 control-label">Confirmar password</label>
+                    <div class="col-sm-3">
+                        <input type="password" name="T_pass2" class="form-control" id="inputConfPassword" placeholder="Confirmar palavra-passe" required>
+                    </div>
+                </div>  
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-3">
+                        <button type="submit" class="btn btn-group-justified">Gravar alterações</button>
+                    </div>
+                </div>
+                
+                <!-- Email original do aluno para a procura do registo na bd -->
+                <input name="H_email" type="hidden" value="<?=$aluno->getEmail()?>">
+                
+            </form>
+        </div>
+    </div>
+</div>   
     <?php
     } 
    
