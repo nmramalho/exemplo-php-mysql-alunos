@@ -58,8 +58,9 @@ class Escola {
     
     /**
      * Função para criar o topo das páginas
-     * 
-     * @param String $titulo texto a apareçer no topo das páginas
+     *
+     * @access public 
+     * @param String $titulo Texto a apareçer no topo das páginas
      */
     public function mostraCabecalho($titulo)
     {
@@ -95,7 +96,8 @@ class Escola {
     /**
      * Função para criar o rodaé das páginas
      * 
-     * @param String $rodape Testo a aparecer no rodaé das páginas
+     * @access public
+     * @param String $rodape Texto a aparecer no rodaé das páginas
      */
     public function mostraRodape($rodape)
     {
@@ -117,6 +119,7 @@ class Escola {
     /**
      * Função para mostrar o menu da aplicação
      * 
+     * @access public
      */
     public function mostraMenu()
     {
@@ -144,6 +147,7 @@ class Escola {
     /**
      * Função para mostrar o formulário de login
      * 
+     * @access public
      */
     public function mostraFormLogin()
     {
@@ -169,6 +173,7 @@ class Escola {
   /**
     * Função para mostrar o formulário de registo de um novo aluno
     * 
+    * @access public
     */ 
    public function mostraFormRegistaAluno(){
      ?>
@@ -249,6 +254,7 @@ class Escola {
    /**
     * Função para mostrar o formulário de criação de um aluno
     * 
+    * @access public
     */ 
      public function mostraFormNovoAluno(){
      ?>
@@ -329,6 +335,7 @@ class Escola {
    /**
     * Função para mostrar o formulário para edição de dados de um aluno
     * 
+    * @access public
     * @param Aluno $aluno
    */
    public function mostraFormEditaAluno(Aluno $aluno){
@@ -410,10 +417,10 @@ class Escola {
     } 
    
    /**
-    * Função para mostrar o formulário para edição de dados de um aluno
+    * Função para apresentar os dados de um aluno
     * 
+    * @access public
     * @param Aluno $aluno
-    * 
     */
    public function mostraDadosAluno(Aluno $aluno){
      ?>
@@ -459,8 +466,9 @@ class Escola {
     }   
     
     /**
-     * Função para mostrar o formulário para procura por nome
+     * Função para mostrar o formulário para procurar alunos por nome.
      * 
+     *@access public
      */
     public function mostraFormProcuraNome()
     {
@@ -518,6 +526,7 @@ class Escola {
     /**
      * Função para inserção de um aluno na base de dados
      * 
+     * @access public
      * @param Aluno $aluno 
      * @return boolean Devolve TRUE caso sucesso, FALSE caso insucesso
      */
@@ -550,6 +559,7 @@ class Escola {
     /**
      * Função para eliminar de um aluno na base de dados através do email
      * 
+     * @access public
      * @param String $email 
      * @return boolean Devolve TREU caso sucesso, FALSE caso insucesso
      */
@@ -586,6 +596,7 @@ class Escola {
      /**
      * Função para edição de um aluno na base de dados. A procura do registo é efetuada por email
      * 
+     * @access public
      * @param Aluno $aluno
      * @param String $email
      * @return boolean Devolve TREU caso sucesso, FALSE caso insucesso
@@ -622,7 +633,8 @@ class Escola {
   
     /**
      * Função para devolver um aluno e respetivos dados com base no email
-     * 
+     *
+     * @access public 
      * @param String $email Nome do utilizador a encontrar
      * @return boolean|\Aluno Devolve um aluno com os respetivos dados
      */
@@ -669,9 +681,10 @@ class Escola {
         return $aluno;     /* devolve o arrau de aluno */
     }
   
-      /**
+    /**
      * Função para devolver um aluno e respetivos dados com base no username
-     * 
+     *
+     * @access public
      * @param String $username Nome do utilizador a encontrar
      * @return boolean|\Aluno Devolve um aluno com os respetivos dados
      */
@@ -720,7 +733,8 @@ class Escola {
     
     /**
      * Função para verificar se um email já está registado
-     *  
+     *
+     * @access public  
      * @return boolean Devolve TRUE caso sucesso e FALSE caso insucesso
      */
     public function emailExiste($email){
@@ -754,6 +768,7 @@ class Escola {
     /**
      *  Função para verificar se um username já está registado
      * 
+     * @access public
      * @param String $username
      * @return boolean Devolve TRUE caso sucesso e FALSE caso insucesso
      */
@@ -790,7 +805,8 @@ class Escola {
     /**
      * Função que devolve um array de objetos do tipo Aluno existentes na tabela 
      * aluno da base de dados
-     *  
+     * 
+     * @access public 
      * @return boolean|\Aluno Devolve array de alunos caso sucesso e 
      * FALSE caso insucesso
      */
@@ -836,6 +852,7 @@ class Escola {
      * Função que devolve um array de objetos do tipo Aluno que têm a string 
      * recebida na função no nome 
      *  
+     * @access public
      * @return boolean|\Aluno Devolve array de alunos caso sucesso e 
      * FALSE caso insucesso
      */
@@ -883,6 +900,8 @@ class Escola {
     
     /**
      * Função para mostar uma tabela com todos os registos de alunos
+     * 
+     * @access public
      */
     public function mostraTabelaTodosAlunos(){
 
@@ -934,6 +953,7 @@ class Escola {
      /**
       * Função para mostrar os alunos recebidos num array
       * 
+      * @access public
       * @param Array $alunos
       */
     public function mostraTabelaAlunos($alunos){
@@ -980,6 +1000,7 @@ class Escola {
     /**
      * Função para criar um link para uma determinada página
      * 
+     * @access public
      * @param String $endereco endereço da ágina a abrir
      * @param String $titulo texto a atribuir ao endereço
      */
@@ -1009,6 +1030,7 @@ class Escola {
      * $_SESSION['utilizadorValido']. Cria página de erro caso a sessão não 
      * esteja iiciada
      * 
+     * @access public
      * @return boolean Devolve TRUE caso sucesso e FALSE caso insucesso
      */
     public function verificaSessao(){
@@ -1028,6 +1050,7 @@ class Escola {
     /**
      * Função para terminar a sessão. Vai desregistar a variável de sessão $_SESSION['utilizadorValido']
      * 
+     * @access public
      */
     public function terminaSessao(){
     
