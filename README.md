@@ -9,7 +9,7 @@ O Programa Alunos consiste num exemplo de um website em PHP que permite a gestã
 Funcionalidades:
 - Acesso a uma base de dados MySQL.
 - Registo de Alunos.
-- Login e utilização de sessões.
+- Login e utilização de sessões (sem encriptação de passwords e não utiliza cookies).
 - Listagem de registos.
 - Remoção de registos.
 - Edição de registos.
