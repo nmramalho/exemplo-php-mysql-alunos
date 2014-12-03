@@ -18,7 +18,7 @@ Funcionalidades:
  
 Utilização de Frameworks:
 - Bootstrap.
-- Jquery.
+- Jquery versão 1.11.1.
 
 
 Requisitos
