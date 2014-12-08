@@ -466,11 +466,11 @@ class Escola {
     }   
     
     /**
-     * Função para mostrar o formulário para procurar alunos por nome.
+     * Função para mostrar o formulário para procurar alunos.
      * 
      *@access public
      */
-    public function mostraFormProcuraNome()
+    public function mostraFormProcuraAlunos()
     {
     ?>
     
@@ -483,12 +483,27 @@ class Escola {
             <label for="inputNome" class="sr-only">Nome</label>
             <input type="text" name="T_procuranome" class="form-control" id="inputNome" placeholder="Introduza um nome">
         </div>
+        <div class="form-group">
+            <label for="selectTurma" class="sr-only">Turma</label>
+            <p class="form-control-static">Turma</p>
+            <select name="S_turma" class="form-control" id="selectTurma">
+                <option value="%">Selecionar Turma</option>
+                <?php
+               
+                $turmas = $this->arrayComTodasAsTurmas();
+                
+                foreach ($turmas as $turma) {
+                    echo "<option value=\"$turma\">$turma</option>";
+                }
+                ?>
+            </select>
+        </div>
         <button type="submit" class="btn btn-default">Procurar</button>
     </form>
-
+    
     <?php
     } 
-          
+   
     /** Função para verificar os dados do utilizador para o login. Vai verificar
      * na base de dados se o utilizardor e palavra passe coincidem.
      * 
@@ -676,9 +691,9 @@ class Escola {
         $aluno->setPass($row["pass"]);
         
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */
+        $ligacao->close();  /* fecha a ligação */
         
-        return $aluno;     /* devolve o arrau de aluno */
+        return $aluno;     /* devolve o array de aluno */
     }
   
     /**
@@ -726,9 +741,9 @@ class Escola {
         $aluno->setPass($row["pass"]);
         
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */
+        $ligacao->close();  /* fecha a ligação */
         
-        return $aluno;     /* devolve o arrau de aluno */
+        return $aluno;     /* devolve o array de aluno */
     }
     
     /**
@@ -761,8 +776,8 @@ class Escola {
         }
       
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */ 
-        return true;     /* devolve o arrau de aluno */
+        $ligacao->close();  /* fecha a ligação */ 
+        return true;     /* devolve o array de aluno */
     }
 
     /**
@@ -796,8 +811,8 @@ class Escola {
         }
       
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */ 
-        return true;     /* devolve o arrau de aluno */
+        $ligacao->close();  /* fecha a ligação */ 
+        return true;     /* devolve o array de aluno */
     } 
     
     
@@ -844,8 +859,8 @@ class Escola {
              }
     
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */
-        return $alunos;     /* devolve o arrau de aluno */
+        $ligacao->close();  /* fecha a ligação */
+        return $alunos;     /* devolve o array de aluno */
     }
 
      /**
@@ -853,6 +868,7 @@ class Escola {
      * recebida na função no nome 
      *  
      * @access public
+     * @param String $nome
      * @return boolean|\Aluno Devolve array de alunos caso sucesso e 
      * FALSE caso insucesso
      */
@@ -890,14 +906,103 @@ class Escola {
              }
     
         $resultado->free();  /* liberta o resultado*/
-        $ligacao->close();  /* fecha a licgaçao */
-        return $alunos;     /* devolve o arrau de aluno */
+        $ligacao->close();  /* fecha a ligação */
+        return $alunos;     /* devolve o array de alunos */
     }
 
+    /**
+     * Função que devolve um array de objetos do tipo Aluno com base no nome e 
+     * turma
+     *  
+     * @access public
+     * @param String $nome
+     * @param String $turma
+     * @return boolean|\Aluno Devolve array de alunos caso sucesso e 
+     * FALSE caso insucesso
+     */
+    public function arrayProcuraAlunosPorNomeTurma($nome,$turma){
+ 
+        /* estabelece ligação à base de dados*/
+        $ligacao = $this->ligaBD(); 
+
+        /* verifica se houve erro na ligação */
+        if (!$ligacao){ 
+            return false;
+        }
+
+        /* Se os parâmetro for NULL atribui % para ignorar filtragem*/
+        if (is_null($nome)){
+            $nome="%";
+        }
+        /* Se os parâmetro for NULL atribui % para ignorar filtragem*/
+        if (is_null($turma)){
+            $turma="%";
+        }
+        
+        $consulta = "SELECT * FROM aluno WHERE "
+                  . "nome LIKE '$nome%' "
+                  . "AND "
+                  . "turma LIKE '$turma' "
+                  . "ORDER BY nome ASC ";
+
+        if (!$resultado = $ligacao->query($consulta)) {
+            echo(" Falha na consulta: ". $ligacao->error);
+            $ligacao->close(); // fecha a ligação
+            return false;
+        }
+
+        $alunos = array();
+         
+        /* percorrer os registos (linhas) da tabela*/
+         while ($row = $resultado->fetch_assoc()){    /* fetch associative array */
+             $tempAluno = new Aluno();
+             $tempAluno->setEmail($row["email"]);
+             $tempAluno->setNome($row["nome"]);
+             $tempAluno->setIdade($row["idade"]);
+             $tempAluno->setTurma($row["turma"]);
+             $tempAluno->setAno($row["ano"]);
+             $tempAluno->setUsername($row["username"]);
+             $tempAluno->setPass($row["pass"]);
+             $alunos[] = $tempAluno;
+             }
+    
+        $resultado->free();  /* liberta o resultado*/
+        $ligacao->close();  /* fecha a ligação */
+        return $alunos;     /* devolve o array de alunos */
+    } 
     
     
     
+    public function arrayComTodasAsTurmas() {
+  
+        /* estabelece ligação à base de dados*/
+        $ligacao = $this->ligaBD(); 
+
+        /* verifica se houve erro na ligação */
+        if (!$ligacao){ 
+            return false;
+        }
+
+        $consulta = "SELECT DISTINCT turma FROM aluno";
+
+        if (!$resultado = $ligacao->query($consulta)) {
+            echo(" Falha na consulta: ". $ligacao->error);
+            $ligacao->close(); // fecha a ligação
+            return false;
+        }
+
+        $turmas = array();
+         
+        /* percorrer os registos (linhas) da tabela*/
+         while ($row = $resultado->fetch_assoc()){    /* fetch associative array */
+             $turmas[] = $row["turma"];
+             }
     
+        $resultado->free();  /* liberta o resultado*/
+        $ligacao->close();  /* fecha a ligação */
+        return $turmas;     /* devolve o array de turmas */
+    }
+  
     /**
      * Função para mostar uma tabela com todos os registos de alunos
      * 
@@ -960,38 +1065,41 @@ class Escola {
 
      /* criação do cabeçalho da tabela de resultados */
         ?>
-        <table align="center">
-            <tr>
-                <td>Email</td>
-                <td>Nome</td>
-                <td>Idade</td>
-                <td>Turma</td>
-                <td>Ano</td>
-                <td>Username</td>
-                <td>Pass</td>
-                <td>Operações</td>
-            </tr>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Turma</th>
+                    <th>Ano</th>
+                    <th>Username</th>
+                    <th>Pass</th>
+                    <th>Operações</th>
+                </tr>
+            </thead>
             <?php
             
         /* preenchimento das linhas da tabela*/
         foreach ($alunos as $aluno){
             ?>
-            <tr>
-                <td> <?=$aluno->email?> </td>
-                <td> <?=$aluno->nome?> </td>
-                <td> <?=$aluno->idade?> </td>
-                <td> <?=$aluno->turma?> </td>
-                <td> <?=$aluno->ano?> </td>
-                <td> <?=$aluno->username?> </td>
-                <td> <?=$aluno->pass?> </td>
-                <td><a href="eliminaalunobd.php?email=<?=$aluno->email?>">Remover</a>&nbsp;</td>
-                <td><a href="formeditar.php?email=<?=$aluno->email?>">Editar</a></td>
-            </tr>   
-        
+            <tbody>
+                <tr>
+                    <td> <?=$aluno->email?> </td>
+                    <td> <?=$aluno->nome?> </td>
+                    <td> <?=$aluno->idade?> </td>
+                    <td> <?=$aluno->turma?> </td>
+                    <td> <?=$aluno->ano?> </td>
+                    <td> <?=$aluno->username?> </td>
+                    <td> <?=$aluno->pass?> </td>
+                    <td><a class="glyphicon glyphicon-remove" href="eliminaalunobd.php?email=<?=$aluno->email?>"> Remover</a></td>
+                    <td><a class="glyphicon glyphicon-edit" href="formeditar.php?email=<?=$aluno->email?>"> Editar</a></td>
+                </tr>   
+            </tbody>
         <?php
         }
         ?>
-        </table>    
+        </table>     
         <?php
         
        

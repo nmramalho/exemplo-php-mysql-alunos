@@ -13,17 +13,13 @@ if (!$escola->verificaSessao()){ /* verifica se a sessão está iniciada */
 $escola->mostraCabecalho("Lista de Alunos"); /* mostrar o cabeçalho da página */
 $escola->mostraMenu();
 
-$escola->mostraFormProcuraNome(); /* mostrar o formulário de procura por nome */
+$escola->mostraFormProcuraAlunos(); /* mostrar o formulário de procura de alunos */
 
+/*atribui os valores para aplicar na filtragem da lista*/
 $nome = filter_input(INPUT_POST, 'T_procuranome');
+$turma = filter_input(INPUT_POST, 'S_turma');
 
-/* verifica se houve procura por nome */
-if ($nome){
-    $alunos = $escola->arrayProcuraAlunosPorNome($nome);
-    $escola->mostraTabelaAlunos($alunos);
-}
-else{
-    $escola->mostraTabelaTodosAlunos();
-}
+$alunos = $escola->arrayProcuraAlunosPorNomeTurma($nome, $turma);
+$escola->mostraTabelaAlunos($alunos);  
 
 $escola->mostraRodape("Programa Alunos"); /* mostrar o rodaé da página da página */

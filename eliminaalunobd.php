@@ -18,7 +18,7 @@ $email = filter_input(INPUT_GET, 'email');
 if ($escola->eliminaAlunoBD($email)){
    $escola->mostraCabecalho("Eliminação do Aluno"); // função para mostrar o cabeçalho da página
    echo "<h2> SUCESSO: Aluno eliminado com sucesso. </h2>";
-   $escola->abrePagina("paginainicial.php", "Ir para página inicial.");
+   $escola->abrePagina("listaalunosbd.php", "Voltar à lista de alunos");
    $escola->mostraRodape("Programa Alunos"); // função para mostrar o rodaé da página da página
 }
 else{
