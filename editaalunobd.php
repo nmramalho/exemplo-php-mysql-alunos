@@ -32,13 +32,13 @@ if($pass2!=$aluno->pass){
           
 if ($escola->editaAlunoBD($aluno, $email)){
    $escola->mostraCabecalho("Edição do Aluno"); // função para mostrar o cabeçalho da página
-   echo "<h2> SUCESSO: Aluno editado com sucesso. </h2>";
+   echo '<div class="alert alert-success" role="alert"><strong>Sucesso! </strong> Aluno editado com sucesso. </div> ';
    $escola->abrePagina("paginainicial.php", "Ir para página inicial.");
    $escola->mostraRodape("Programa Alunos"); // função para mostrar o rodaé da página da página
 }
 else{
    $escola->mostraCabecalho("Edição do Aluno"); // função para mostrar o cabeçalho da página
-   echo "<h2> ERRO: Falha na edição do aluno! </h2>";
+   echo '<div class="alert alert-danger" role="alert"><strong>Erro! </strong> Falha na edição do aluno. </div> ';
    echo "<a href=\"javascript:history.go(-1)\">voltar</a>";
    $escola->mostraRodape("Programa Alunos"); // função para mostrar o rodaé da página da página 
 }

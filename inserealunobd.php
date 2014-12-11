@@ -34,7 +34,8 @@ if($pass2!=$aluno->getPass()){
 /* verifica se já existe um registo com o mesmo email ou username recebidos do formulário */
 if($escola->emailExiste($aluno->getEmail())|| $escola->usernameExiste($aluno->getUsername())){
     $escola->mostraCabecalho("Criar Aluno"); /* função para mostrar o cabeçalho da página */
-    echo "O username ou email já está registado! "; /* mensagem a informar o utilizador */
+    echo '<div class="alert alert-warning" role="alert"><strong>Atenção! </strong> '
+         . 'O username ou email já está registado! . </div> ';/* mensagem a informar o utilizador */
     echo "<a href=\"javascript:history.go(-1)\">voltar</a>"; /* ligação para a página anterior */
     $escola->mostraRodape("Programa Alunos"); /* função para mostrar o rodaé da página da página */    
     exit(); /* termina execução do programa */
@@ -43,13 +44,15 @@ if($escola->emailExiste($aluno->getEmail())|| $escola->usernameExiste($aluno->ge
 /* insere o aluno na base de dados */
 if ($escola->insereAlunoBD($aluno)){   /* se o aluno for inserido com sucesso */
    $escola->mostraCabecalho("Criar Aluno"); /* função para mostrar o cabeçalho da página */
-   echo "<h2> Aluno criado com sucesso. </h2>"; /* memsagem de sucesso */
+   echo '<div class="alert alert-success" role="alert"><strong>Sucesso! </strong> '
+        . 'Aluno criado com sucesso. </div> '; /* memsagem de sucesso */
    $escola->abrePagina("paginainicial.php", "Início");
    $escola->mostraRodape("Programa Alunos"); /* função para mostrar o rodaé da página da página */
 }
 else{ /* se houver erro na insersão do aluno */
    $escola->mostraCabecalho("Criar Aluno"); /* função para mostrar o cabeçalho da página */
-   echo "<h2> ERRO: Falha ao criar aluno! </h2>"; /* mensagem de erro */
+   echo '<div class="alert alert-danger" role="alert"><strong>Erro! </strong> '
+        . 'Falha ao criar aluno! </div> ';/* mensagem de erro */
    echo "<a href=\"javascript:history.go(-1)\">voltar</a>"; /* ligação para a página anterior */
    $escola->mostraRodape("Programa Alunos"); /* função para mostrar o rodaé da página da página */
 }

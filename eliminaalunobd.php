@@ -17,13 +17,13 @@ $email = filter_input(INPUT_GET, 'email');
  
 if ($escola->eliminaAlunoBD($email)){
    $escola->mostraCabecalho("Eliminação do Aluno"); // função para mostrar o cabeçalho da página
-   echo "<h2> SUCESSO: Aluno eliminado com sucesso. </h2>";
+   echo '<div class="alert alert-success" role="alert"><strong>Sucesso! </strong> Aluno eliminado com sucesso. </div> ';
    $escola->abrePagina("listaalunosbd.php", "Voltar à lista de alunos");
    $escola->mostraRodape("Programa Alunos"); // função para mostrar o rodaé da página da página
 }
 else{
    $escola->mostraCabecalho("Eliminação do Aluno"); // função para mostrar o cabeçalho da página
-   echo "<h2> ERRO: Falha na eliminação do aluno! </h2>";
+   echo '<div class="alert alert-danger" role="alert"><strong>Erro! </strong> Falha na eliminação do aluno. </div> ';
    $escola->abrePagina("paginainicial.php", "Ir para página inicial.");
    $escola->mostraRodape("Programa Alunos"); // função para mostrar o rodaé da página da página 
 }

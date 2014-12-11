@@ -451,7 +451,7 @@ class Escola {
             <td><?=$aluno->getUsername()?></td>
         </tr>
         <tr>   
-            <th data-field="password">Turma</th>  
+            <th data-field="password">Password</th>  
             <td><?=$aluno->getPass()?></td>
         </tr>
     </table>
@@ -940,7 +940,7 @@ class Escola {
         }
         
         $consulta = "SELECT * FROM aluno WHERE "
-                  . "nome LIKE '$nome%' "
+                  . "nome LIKE '%$nome%' "
                   . "AND "
                   . "turma LIKE '$turma' "
                   . "ORDER BY nome ASC ";

@@ -17,7 +17,8 @@ if($username){ /* verifica se a variàvel está inicializada */
         }
     else{ // login falhado
         $escola->mostraCabecalho(" !! Problema !! "); /* mostrar o cabeçalho da página */
-        echo "\n A autenticação falhou, é necessário estar autenticado para ver esta página!";
+        echo '<div class="alert alert-warning" role="alert"><strong>Atenção! </strong> '
+             . 'A autenticação falhou, é necessário estar autenticado para ver esta página! . </div> ';       
         $escola->abrePagina("login.php", "Login"); /* função para criar uma hiperligação */
         $escola->mostraRodape("Programa Alunos"); /* função para mostrar o rodaé da página da página */
         exit();
