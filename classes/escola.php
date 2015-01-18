@@ -137,6 +137,9 @@ class Escola {
             <li><a href="formnovoaluno.php">Criar</a></li>
             <li><a href="logout.php">Sair</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"></a></li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -470,7 +473,7 @@ class Escola {
      * 
      *@access public
      */
-    public function mostraFormProcuraAlunos()
+    public function mostraFormProcuraAlunos($nome, $turma)
     {
     ?>
     
@@ -481,7 +484,7 @@ class Escola {
         </div>
         <div class="form-group">
             <label for="inputNome" class="sr-only">Nome</label>
-            <input type="text" name="T_procuranome" class="form-control" id="inputNome" placeholder="Introduza um nome">
+            <input type="text" name="T_procuranome" value="<?=$nome?>"class="form-control" id="inputNome" placeholder="Introduza um nome">
         </div>
         <div class="form-group">
             <label for="selectTurma" class="sr-only">Turma</label>
@@ -1173,4 +1176,172 @@ class Escola {
         
     }
 
+     /**
+     * Função que devolve um array de objetos do tipo Aluno existentes na tabela 
+     * aluno da base de dados em modo paginação (offset + limit)
+     * 
+     * @access public 
+     * @param int $regPorPagina Numero de registos por página
+     * @param int $pagina Numero da página a mostrar 
+     * @return boolean|\Aluno Devolve array de alunos caso sucesso e 
+     * FALSE caso insucesso
+     */
+    public function arrayProcuraAlunosPorNomeTurmaPaginado($nome, $turma, $regPorPagina, $pagina){
+ 
+        /* estabelece ligação à base de dados*/
+        $ligacao = $this->ligaBD(); 
+
+        /* verifica se houve erro na ligação */
+        if (!$ligacao){ 
+            return false;
+        }
+     
+        /* verifica se foi indicada uma página */
+        if (!$pagina) {
+            $pagina = 1;
+        }
+          
+          /* Se os parâmetro for NULL atribui % para ignorar filtragem*/
+        if (is_null($nome)){
+            $nome="%";
+        }
+        /* Se os parâmetro for NULL atribui % para ignorar filtragem*/
+        if (is_null($turma)){
+            $turma="%";
+        }
+        
+        $iniciarEm = ($pagina-1) * $regPorPagina; 
+        
+        $consulta = "SELECT * FROM aluno WHERE "
+                  . "nome LIKE '%$nome%' "
+                  . "AND "
+                  . "turma LIKE '$turma' "
+                  . "ORDER BY nome ASC "
+                  . "LIMIT $iniciarEm, $regPorPagina";
+
+        if (!$resultado = $ligacao->query($consulta)) {
+            echo(" Falha na consulta: ". $ligacao->error);
+            $ligacao->close(); // fecha a ligação
+            return false;
+        }
+
+        $alunos = array();
+         
+        /* percorrer os registos (linhas) da tabela*/
+         while ($row = $resultado->fetch_assoc()){    /* fetch associative array */
+             $tempAluno = new Aluno();
+             $tempAluno->setEmail($row["email"]);
+             $tempAluno->setNome($row["nome"]);
+             $tempAluno->setIdade($row["idade"]);
+             $tempAluno->setTurma($row["turma"]);
+             $tempAluno->setAno($row["ano"]);
+             $tempAluno->setUsername($row["username"]);
+             $tempAluno->setPass($row["pass"]);
+             $alunos[] = $tempAluno;
+             }
+    
+        $resultado->free();  /* liberta o resultado*/
+        $ligacao->close();  /* fecha a ligação */
+        return $alunos;     /* devolve o array de aluno */
+    }
+  
+   
+    /**
+     * Função para contar o total de alunos
+     * 
+     * @return boolean|int Devolve o número de alunos caso sucesso e FALSE caso
+     * insucesso
+     */
+    public function totalDeAlunos(){
+ 
+        /* estabelece ligação à base de dados*/
+        $ligacao = $this->ligaBD(); 
+
+        /* verifica se houve erro na ligação */
+        if (!$ligacao){ 
+            return false;
+        }
+
+        $consulta = "SELECT * FROM aluno";
+
+        if (!$resultado = $ligacao->query($consulta)) {
+            echo(" Falha na consulta: ". $ligacao->error);
+            $ligacao->close(); // fecha a ligação
+            return false;
+        }
+
+        $totalAlunos = $resultado->num_rows;
+        
+    
+        $resultado->free();  /* liberta o resultado*/
+        $ligacao->close();  /* fecha a ligação */
+        return $totalAlunos;     /* devolve o total de alunos */
+    }
+  
+     /**
+      * Função para mostrar uma tabela com paginação de alunos recebidos num 
+      * array
+      * 
+      * @access public
+      * @param Array $alunos
+      */
+    public function mostraTabelaAlunosPaginada($alunos, $totalPaginas){
+
+     /* criação do cabeçalho da tabela de resultados */
+        ?>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Turma</th>
+                    <th>Ano</th>
+                    <th>Username</th>
+                    <th>Pass</th>
+                    <th>Operações</th>
+                </tr>
+            </thead>
+            <?php
+            
+        /* preenchimento das linhas da tabela*/
+        foreach ($alunos as $aluno){
+            ?>
+            <tbody>
+                <tr>
+                    <td> <?=$aluno->email?> </td>
+                    <td> <?=$aluno->nome?> </td>
+                    <td> <?=$aluno->idade?> </td>
+                    <td> <?=$aluno->turma?> </td>
+                    <td> <?=$aluno->ano?> </td>
+                    <td> <?=$aluno->username?> </td>
+                    <td> <?=$aluno->pass?> </td>
+                    <td><a class="glyphicon glyphicon-remove" href="eliminaalunobd.php?email=<?=$aluno->email?>"> Remover</a></td>
+                    <td><a class="glyphicon glyphicon-edit" href="formeditar.php?email=<?=$aluno->email?>"> Editar</a></td>
+                </tr>   
+            </tbody>
+        <?php
+        }
+        ?>
+        </table>     
+       
+        <ul class="pagination pagination-sm">
+            <li><a href="listaalunosbd.php?pagina=1">&laquo;</a></li>
+   
+            <?php   
+            
+            for ($i=1; $i<=$totalPaginas; $i++) {
+                echo "<li><a href='listaalunosbd.php?pagina=".$i."'>".$i."</a></li> "; 
+            } 
+            ?> 
+        <li><a href="listaalunosbd.php?pagina=<?=$totalPaginas?>">&raquo;</a></li>    
+        </ul>      
+   
+        <?php
+        
+    }   
+    
+    
+    
+    
  }
