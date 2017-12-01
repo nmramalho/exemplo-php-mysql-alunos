@@ -392,7 +392,7 @@ class Escola {
                 <div class="form-group">
                     <label for="inputPassword" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-3">
-                        <input type="password" name="T_pass1" class="form-control" id="inputPassword" value="<?=$aluno->getPass()?>" required>
+                        <input type="password" name="T_pass1" class="form-control" id="inputPassword" placeholder=" palavra-passe" required>
                     </div>
                 </div>
 
@@ -455,7 +455,7 @@ class Escola {
         </tr>
         <tr>   
             <th data-field="password">Password</th>  
-            <td><?=$aluno->getPass()?></td>
+            <td>****</td>
         </tr>
     </table>
     <br>
@@ -526,8 +526,7 @@ class Escola {
         }
 
         $consulta = "SELECT * FROM aluno WHERE "       //consulta para verificar o nome de utilizador e palavra passe na bd
-                             ." username='$username' AND "
-                             ." pass = '$pass'";
+                             ." username='$username' ";
 
         if (!$resultado = $ligacao->query($consulta)) {
             echo " Falha na consulta: ". $ligacao->error;
@@ -536,8 +535,18 @@ class Escola {
         }
 
          if ($resultado->num_rows > 0){ // verifica de o resultado devolve linhas
+            
+             $row = $resultado->fetch_assoc();
+             
+            if( password_verify($pass, $row["pass"]) ){
+                $resultado->free();  /* liberta o resultado*/
+                $ligacao->close();  // fecha a ligação
+                return true;  
+            }
+             
+            $resultado->free();  /* liberta o resultado*/
             $ligacao->close();  // fecha a ligação
-            return true;
+            return false;
         }
     }
     
@@ -558,6 +567,8 @@ class Escola {
             return false;
         }
 
+       $aluno->pass = password_hash($aluno->pass, PASSWORD_DEFAULT);
+              
        $consulta = "INSERT INTO aluno"
                     ."(email, nome, idade, turma, ano, username, pass) VALUES "
                     ."('$aluno->email','$aluno->nome', '$aluno->idade', "
@@ -629,6 +640,8 @@ class Escola {
             return false;
         }
 
+       $aluno->pass = password_hash($aluno->pass, PASSWORD_DEFAULT);
+        
        $consulta = "UPDATE aluno SET  email='$aluno->email', "
                                   . " nome='$aluno->nome', "
                                   . " idade='$aluno->idade', "
