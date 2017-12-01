@@ -455,7 +455,7 @@ class Escola {
         </tr>
         <tr>   
             <th data-field="password">Password</th>  
-            <td>****</td>
+            <td>******</td>
         </tr>
     </table>
     <br>
